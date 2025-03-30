@@ -1,3 +1,5 @@
+import functions
+
 # class Parents:
 #
 #     def __init__(self):
@@ -25,4 +27,4 @@
 # print(kiran.hair_color)
 
 
-class bar(Turtle)
+print(functions.DATA)
