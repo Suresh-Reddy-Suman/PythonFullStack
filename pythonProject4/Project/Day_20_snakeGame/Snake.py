@@ -47,8 +47,15 @@ class Snake:
         new_turtle = Turtle(shape='square')
         new_turtle.penup()
         new_turtle.color('white')
-        self.tail = self.segments[len(self.segments)-1]
+        self.tail = self.segments[len(self.segments) - 1]
         x_cor = self.tail.xcor()
         y_cor = self.tail.ycor()
         new_turtle.goto((x_cor, y_cor))
         self.segments.append(new_turtle)
+
+    def reset_game(self):
+        for segment in self.segments:
+            segment.goto(1000, 1000)
+        self.segments.clear()
+        self.create_snake()
+        self.head = self.segments[0]

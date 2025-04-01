@@ -32,14 +32,13 @@ while not END_OF_GAME:
 
     # Collision with Wall
     if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
-        score.game_over()
-        END_OF_GAME = True
-
+        snake.reset_game()
+        score.reset()
     # Collision with own tail
     for segment in snake.segments[1:]:
         if snake.head.distance(segment) < 10:
-            score.game_over()
-            END_OF_GAME = True
+            snake.reset_game()
+            score.reset()
     # Collision with food
     if snake.head.distance(food) < 20:
         food.generate_food()
