@@ -26,14 +26,10 @@ while not GAME_OVER:
             updated_countries.append(provided_state)
             scoreboard.update_score()
     elif provided_state == 'Off':
-        for state in countries:
-            if state not in updated_countries:
-                missed_state.append(state)
-                learning = {
-                    "State to Know": missed_state
-                }
-                pandas.DataFrame(learning).to_csv('State to Learn.csv')
+        missed_state = [state for state in countries if state not in updated_countries]
+        learning = {
+            "State to Know": missed_state
+        }
+        pandas.DataFrame(learning).to_csv('State to Learn.csv')
         break
-    my_screen.update()
-
-
+my_screen.update()
