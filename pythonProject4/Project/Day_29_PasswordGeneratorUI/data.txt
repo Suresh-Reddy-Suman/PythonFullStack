@@ -1,2 +1,1 @@
-Amazon|bagisuresh411@gmail.com|6oP($K#r605D+tvD
-
+{'Facebook': {'Username': 'Suresh', 'Password': 'p$2j!VP0%A8ZQeiX4'}}

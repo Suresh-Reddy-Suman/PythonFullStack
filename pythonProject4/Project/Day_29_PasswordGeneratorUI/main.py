@@ -1,7 +1,21 @@
+import json
 from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+
+
+# ----------------Fetch Details----------------------------#
+
+def fetch_details():
+    with open('./file.json', mode='r') as password_data:
+        data = json.load(password_data)
+        website_value = website_input.get()
+        if website_value not in data:
+            messagebox.showerror(title='No details',message='No details found')
+        else:
+            messagebox.showinfo("Password Details",
+                                f"Username :{data[website_input.get()]['Username']}\nPassword:{data[website_input.get()]['Password']}")
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -43,17 +57,32 @@ def save_password():
     email_text = email_input.get()
     password_text = password_input.get()
 
+    new_data = {
+        website_text: {
+            'Username': email_text,
+            'Password': password_text
+        }
+    }
     if len(website_text) == 0 or len(email_text) == 0 or len(password_text) == 0:
         messagebox.showerror(title="Incorrect Details ", message='Please fill the details before we add')
     else:
+        try:
+            with open('file.json', mode='r') as file:
+                data = json.load(file)
+        except:
+            with open('file.json', mode='w') as file:
+                json.dump({}, file)
+        else:
+            with open('file.json', mode='r') as file:
+                data = json.load(file)
+            with open('file.json', mode='w') as new_version:
+                data.update(new_data)
+                json.dump(data, new_version, indent=4)
 
-        is_ok = messagebox.askokcancel("Saving file to File",
-                                       f"\nWebsite:{website_text}"
-                                       f"\nEmail/UserName : {email_text}"
-                                       f"\nPassword:{password_text}")
-        if is_ok:
-            with open('data.txt', mode='a') as password_data:
-                password_data.write(f'{website_text}|{email_text}|{password_text}\n')
+        finally:
+            website_input.delete(0, END)
+            email_input.delete(0, END)
+            password_input.delete(0, END)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -76,8 +105,11 @@ password = Label(text='Password: ')
 password.grid(column=0, row=3)
 
 # Create Input fields
-website_input = Entry(width=50)
-website_input.grid(column=1, row=1, columnspan=2)
+website_input = Entry(width=30)
+website_input.grid(column=1, row=1)
+
+search = Button(text='Search', width=12, command=fetch_details)
+search.grid(column=2, row=1)
 
 email_input = Entry(width=50)
 email_input.grid(column=1, row=2, columnspan=2)
